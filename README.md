@@ -1,4 +1,4 @@
-# Labels3D
+# Labels3D Extension for GDevelop 5
 
 The Labels3D extension allows you to add labels to objects or positions.
 
