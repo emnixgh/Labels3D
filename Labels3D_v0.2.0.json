@@ -1,0 +1,666 @@
+{
+  "author": "",
+  "category": "User interface",
+  "dimension": "3D",
+  "extensionNamespace": "",
+  "fullName": "Labels3D",
+  "gdevelopVersion": "",
+  "helpPath": "",
+  "iconUrl": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0ibWRpLW1hcC1tYXJrZXIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIsMTEuNUEyLjUsMi41IDAgMCwxIDkuNSw5QTIuNSwyLjUgMCAwLDEgMTIsNi41QTIuNSwyLjUgMCAwLDEgMTQuNSw5QTIuNSwyLjUgMCAwLDEgMTIsMTEuNU0xMiwyQTcsNyAwIDAsMCA1LDlDNSwxNC4yNSAxMiwyMiAxMiwyMkMxMiwyMiAxOSwxNC4yNSAxOSw5QTcsNyAwIDAsMCAxMiwyWiIgLz48L3N2Zz4=",
+  "name": "Labels3D",
+  "previewIconUrl": "https://asset-resources.gdevelop.io/public-resources/Icons/49efc3d80d3b3a3801311a4a5b826d1fa393293f384f97c39aa3484f18f321c3_map-marker.svg",
+  "shortDescription": "",
+  "version": "0.2.0",
+  "description": "",
+  "tags": [],
+  "authorIds": [
+    "ejq9xark6AUrjxxkerSlnKvYic93"
+  ],
+  "dependencies": [],
+  "globalVariables": [],
+  "sceneVariables": [],
+  "eventsFunctions": [
+    {
+      "description": "Create label at object",
+      "fullName": "Create label at object",
+      "functionType": "Action",
+      "group": "Labels 3D",
+      "name": "CreateLabelAtObject",
+      "sentence": "Create label at _PARAM1_ with font _PARAM2_, text _PARAM3_, align _PARAM4_, image _PARAM5_ size _PARAM6_, color _PARAM7_, shadow _PARAM8_, color shadow _PARAM9_, X offset _PARAM10_, Y offset _PARAM11_, Z offset _PARAM12_, ID _PARAM13_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (objects.length === 0) return;",
+            "if (!gdjs._3dLabels) gdjs._3dLabels = new Map();",
+            "const text = eventsFunctionContext.getArgument(\"Text\");",
+            "const colorArg = eventsFunctionContext.getArgument(\"Color\");",
+            "const shadowColorArg = eventsFunctionContext.getArgument(\"ShadowColor\");",
+            "const size = eventsFunctionContext.getArgument(\"Size\");",
+            "const id = eventsFunctionContext.getArgument(\"ID\");",
+            "const align = eventsFunctionContext.getArgument(\"Align\");",
+            "const shadow = eventsFunctionContext.getArgument(\"Shadow\");",
+            "const font = eventsFunctionContext.getArgument(\"Font\");",
+            "const xoffset = eventsFunctionContext.getArgument(\"X\");",
+            "const yoffset = eventsFunctionContext.getArgument(\"Y\");",
+            "const zoffset = eventsFunctionContext.getArgument(\"Z\");",
+            "const LabelTexture = eventsFunctionContext.getArgument(\"LabelTexture\");",
+            "let color = \"white\";",
+            "let shadowColor = \"black\";",
+            "if (colorArg) {",
+            "    const rgb = colorArg.split(\";\").map(Number);",
+            "    if (rgb.length === 3) {",
+            "        color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;",
+            "    }",
+            "}",
+            "if (shadowColorArg) {",
+            "    const rgb = shadowColorArg.split(\";\").map(Number);",
+            "    if (rgb.length === 3) {",
+            "        shadowColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;",
+            "    }",
+            "}",
+            "objects.forEach((obj) => {",
+            "    const key = obj.id + \"_\" + id;",
+            "    if (gdjs._3dLabels.has(key)) return;",
+            "    const div = document.createElement(\"div\");",
+            "    div.style.position = \"absolute\";",
+            "    div.style.pointerEvents = \"none\";",
+            "    div.style.color = color;",
+            "    div.style.padding = \"3px 8px\";",
+            "    div.style.background = \"rgba(0,0,0,0)\";",
+            "    div.style.borderRadius = \"4px\";",
+            "    div.style.fontFamily = font;",
+            "    div.style.fontSize = \"14px\";",
+            "    div.style.whiteSpace = \"nowrap\";",
+            "    div.style.transform = \"translate(-50%, -50%)\";",
+            "    div.style.zIndex = \"1000\";",
+            "    div.style.textAlign = align;",
+            "    if (shadow) {",
+            "        div.style.textShadow = `1px 1px 2px ${shadowColor}`;",
+            "    }",
+            "    if (LabelTexture) {",
+            "        const img = document.createElement(\"img\");",
+            "        const texture = runtimeScene",
+            "            .getGame()",
+            "            .getImageManager()",
+            "            .getPIXITexture(LabelTexture);",
+            "        if (texture && texture.baseTexture.resource) {",
+            "            img.src = texture.baseTexture.resource.url;",
+            "        }",
+            "        img.style.display = \"block\";",
+            "        img.style.pointerEvents = \"none\";",
+            "        const baseSize = 64;",
+            "        img.style.width = baseSize + \"px\";",
+            "        img.style.height = \"auto\";",
+            "        img.style.objectFit = \"contain\";",
+            "        div.appendChild(img);",
+            "    }",
+            "    if (text) {",
+            "        const span = document.createElement(\"span\");",
+            "        span.innerText = text;",
+            "        div.appendChild(span);",
+            "    }",
+            "    div._size = size;",
+            "    div._id = id;",
+            "    div._xoffset = xoffset;",
+            "    div._yoffset = yoffset;",
+            "    div._zoffset = zoffset;",
+            "    document.body.appendChild(div);",
+            "    gdjs._3dLabels.set(key, div);",
+            "});"
+          ],
+          "parameterObjects": "Object",
+          "useStrict": true,
+          "eventsSheetExpanded": true
+        }
+      ],
+      "parameters": [
+        {
+          "description": "3D Object",
+          "name": "Object",
+          "type": "objectList"
+        },
+        {
+          "description": "Font",
+          "name": "Font",
+          "supplementaryInformation": "[\"Arial\",\"Verdana\",\"Arial Narrow\",\"Georgia\",\"Courier\",\"Cursive\",\"Impact\"]",
+          "type": "stringWithSelector"
+        },
+        {
+          "description": "Label text",
+          "name": "Text",
+          "type": "string"
+        },
+        {
+          "description": "Text align",
+          "name": "Align",
+          "supplementaryInformation": "[\"Center\",\"Left\",\"Right\"]",
+          "type": "stringWithSelector"
+        },
+        {
+          "description": "Label image",
+          "name": "LabelTexture",
+          "type": "imageResource"
+        },
+        {
+          "description": "Label size (Default 1)",
+          "name": "Size",
+          "type": "expression"
+        },
+        {
+          "description": "Color",
+          "name": "Color",
+          "type": "color"
+        },
+        {
+          "description": "Shadow",
+          "name": "Shadow",
+          "type": "trueorfalse"
+        },
+        {
+          "description": "Shadow color",
+          "name": "ShadowColor",
+          "type": "color"
+        },
+        {
+          "description": "X offset",
+          "name": "X",
+          "type": "expression"
+        },
+        {
+          "description": "Y offset",
+          "name": "Y",
+          "type": "expression"
+        },
+        {
+          "description": "Z offset",
+          "name": "Z",
+          "type": "expression"
+        },
+        {
+          "description": "ID (Integer number)",
+          "name": "ID",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Update object label",
+      "fullName": "Update object label",
+      "functionType": "Action",
+      "group": "Labels 3D",
+      "name": "UpdateObjectLabel",
+      "sentence": "Update _PARAM1_ label position with sticky edges _PARAM2_, rotate with object _PARAM3_, smoothness _PARAM4_, ID _PARAM5_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (!gdjs._3dLabels) return;",
+            "const layer = runtimeScene.getLayer(\"\");",
+            "const camera = layer.getRenderer().getThreeCamera();",
+            "const canvas = runtimeScene.getGame().getRenderer().getCanvas();",
+            "const rect = canvas.getBoundingClientRect();",
+            "const id = eventsFunctionContext.getArgument(\"ID\");",
+            "const stickyEdges = eventsFunctionContext.getArgument(\"StickyEdges\");",
+            "const rotatewithobject = eventsFunctionContext.getArgument(\"Rotation\");",
+            "objects.forEach((obj) => {",
+            "    const key = obj.id + \"_\" + id;",
+            "    const label = gdjs._3dLabels.get(key);",
+            "    if (!label) return;",
+            "    const threeObj = obj.get3DRendererObject();",
+            "    if (!threeObj) return;",
+            "    let vector;",
+            "    if (rotatewithobject) {",
+            "        const localOffset = new THREE.Vector3(",
+            "            label._xoffset/20 || 0,",
+            "            (label._yoffset/20 || 0) + 0.8,",
+            "            label._zoffset/20 || 0",
+            "        );",
+            "        vector = threeObj.localToWorld(localOffset);",
+            "    } else {",
+            "        vector = new THREE.Vector3();",
+            "        threeObj.getWorldPosition(vector);",
+            "        vector.x += label._xoffset || 0;",
+            "        vector.y += (label._yoffset || 0) + 0.8;",
+            "        vector.z += label._zoffset || 0;",
+            "    }",
+            "    const dist = camera.position.distanceTo(vector);",
+            "    vector.project(camera);",
+            "    const margin = 0.95;",
+            "    if (!stickyEdges) {",
+            "        if (vector.z > 1) {",
+            "            label.style.display = \"none\";",
+            "            return;",
+            "        }",
+            "        label.style.display = \"block\";",
+            "    } else {",
+            "        label.style.display = \"block\";",
+            "        if (vector.z > 1 || Math.abs(vector.x) > margin || Math.abs(vector.y) > margin) {",
+            "            if (vector.z > 1) {",
+            "                vector.x = -vector.x;",
+            "                vector.y = -vector.y;",
+            "            }",
+            "            if (Math.abs(vector.x) < 0.01 && Math.abs(vector.y) < 0.01) {",
+            "                vector.y = -margin;",
+            "            } else {",
+            "                const scaleToEdge = margin / Math.max(Math.abs(vector.x), Math.abs(vector.y));",
+            "                vector.x *= scaleToEdge;",
+            "                vector.y *= scaleToEdge;",
+            "            }",
+            "        }",
+            "    }",
+            "    const targetX = (vector.x * 0.5 + 0.5) * rect.width + rect.left;",
+            "    const targetY = (-vector.y * 0.5 + 0.5) * rect.height + rect.top;",
+            "    if (label._px === undefined) {",
+            "",
+            "        label._px = targetX;",
+            "        label._py = targetY;",
+            "",
+            "    }",
+            "    const smooth = eventsFunctionContext.getArgument(\"Smooth\");",
+            "    label._px += (targetX - label._px) * smooth;",
+            "    label._py += (targetY - label._py) * smooth;",
+            "    label.style.left = Math.round(label._px) + \"px\";",
+            "    label.style.top = Math.round(label._py) + \"px\";",
+            "    const size = label._size || 1;",
+            "    const scale = Math.max(size, Math.min(1.5, 10 / (dist / 10 + 1)));",
+            "    label.style.transform = `translate(-50%, -50%) scale(${scale})`;",
+            "    const img = label.querySelector(\"img\");",
+            "    if (img) {",
+            "        img.style.transform = \"translateZ(0)\";",
+            "}",
+            "});"
+          ],
+          "parameterObjects": "Object",
+          "useStrict": true,
+          "eventsSheetExpanded": true
+        }
+      ],
+      "parameters": [
+        {
+          "description": "3D Object",
+          "name": "Object",
+          "type": "objectList"
+        },
+        {
+          "defaultValue": "False",
+          "description": "Sticky edges",
+          "name": "StickyEdges",
+          "optional": true,
+          "type": "trueorfalse"
+        },
+        {
+          "description": "Rotate lable with object",
+          "name": "Rotation",
+          "type": "trueorfalse"
+        },
+        {
+          "description": "Smoothness of label movement (0–1)",
+          "name": "Smooth",
+          "type": "expression"
+        },
+        {
+          "description": "ID (Integer number)",
+          "name": "ID",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Delete object label",
+      "fullName": "Delete object label",
+      "functionType": "Action",
+      "group": "Labels 3D",
+      "name": "DeleteObjectLabel",
+      "sentence": "Delete _PARAM1_ label with ID _PARAM2_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (!gdjs._3dLabels) return;",
+            "const id = eventsFunctionContext.getArgument(\"ID\");",
+            "objects.forEach((obj) => {",
+            "  const key = obj.id + \"_\" + id;",
+            "  const label = gdjs._3dLabels.get(key);",
+            "  if (!label) return;",
+            "  if (label.parentNode) {",
+            "    label.parentNode.removeChild(label);",
+            "  }",
+            "  gdjs._3dLabels.delete(key);",
+            "});"
+          ],
+          "parameterObjects": "Object",
+          "useStrict": true,
+          "eventsSheetExpanded": true
+        }
+      ],
+      "parameters": [
+        {
+          "description": "3D Object",
+          "name": "Object",
+          "type": "objectList"
+        },
+        {
+          "description": "ID (Integer number)",
+          "name": "ID",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Create label at position",
+      "fullName": "Create label at position",
+      "functionType": "Action",
+      "name": "CreateLabelAtPosition",
+      "sentence": "Create label with font _PARAM1_ text _PARAM2_, align _PARAM3_ image _PARAM4_, size _PARAM5_, color _PARAM6_, shadow _PARAM7_, shadow color _PARAM8_, at X _PARAM9_, Y _PARAM10_, Z _PARAM11_, ID _PARAM12_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const x = eventsFunctionContext.getArgument(\"X\");",
+            "const y = eventsFunctionContext.getArgument(\"Y\");",
+            "const z = eventsFunctionContext.getArgument(\"Z\");",
+            "const text = eventsFunctionContext.getArgument(\"Text\");",
+            "const colorArg = eventsFunctionContext.getArgument(\"Color\");",
+            "const shadowColorArg = eventsFunctionContext.getArgument(\"ShadowColor\");",
+            "const size = eventsFunctionContext.getArgument(\"Size\");",
+            "const labelId = eventsFunctionContext.getArgument(\"ID\");",
+            "const align = eventsFunctionContext.getArgument(\"Align\");",
+            "const shadow = eventsFunctionContext.getArgument(\"Shadow\");",
+            "const font = eventsFunctionContext.getArgument(\"Font\");",
+            "const LabelTexture = eventsFunctionContext.getArgument(\"LabelTexture\");",
+            "if (!gdjs._3dLabels) gdjs._3dLabels = new Map();",
+            "let color = \"white\";",
+            "let shadowColor = \"black\";",
+            "if (colorArg) {",
+            "    const rgb = colorArg.split(\";\").map(Number);",
+            "    if (rgb.length === 3) {",
+            "        color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;",
+            "    }",
+            "}",
+            "if (shadowColorArg) {",
+            "    const rgb = shadowColorArg.split(\";\").map(Number);",
+            "    if (rgb.length === 3) {",
+            "        shadowColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;",
+            "    }",
+            "}",
+            "if (!gdjs._3dLabels.has(labelId)) {",
+            "    const div = document.createElement(\"div\");",
+            "    div.style.position = \"absolute\";",
+            "    div.style.pointerEvents = \"none\";",
+            "    div.style.color = color;",
+            "    div.style.fontSize = \"14px\";",
+            "    div.style.fontFamily = font;",
+            "    div.style.whiteSpace = \"nowrap\";",
+            "    div.style.zIndex = \"1000\";",
+            "    div.style.transform = \"translate(-50%, -50%)\";",
+            "    div.style.textAlign = align;",
+            "    if (shadow) {",
+            "        div.style.textShadow = `1px 1px 2px ${shadowColor}`;",
+            "    }",
+            "    if (LabelTexture) {",
+            "        const img = document.createElement(\"img\");",
+            "        const texture = runtimeScene",
+            "            .getGame()",
+            "            .getImageManager()",
+            "            .getPIXITexture(LabelTexture);",
+            "",
+            "        if (texture && texture.baseTexture.resource) {",
+            "            img.src = texture.baseTexture.resource.url;",
+            "        }",
+            "        const baseSize = 64;",
+            "        img.style.width = baseSize + \"px\";",
+            "        img.style.height = \"auto\";",
+            "        img.style.objectFit = \"contain\";",
+            "        img.style.display = \"block\";",
+            "        img.style.pointerEvents = \"none\";",
+            "        div.appendChild(img);",
+            "    }",
+            "    if (text) {",
+            "        const span = document.createElement(\"span\");",
+            "        span.innerText = text;",
+            "        div.appendChild(span);",
+            "    }",
+            "    document.body.appendChild(div);",
+            "    gdjs._3dLabels.set(labelId, div);",
+            "}",
+            "const label = gdjs._3dLabels.get(labelId);",
+            "if (text && label.innerText !== text) {",
+            "    const span = label.querySelector(\"span\");",
+            "    if (span) span.innerText = text;",
+            "}",
+            "label._lastActive = Date.now();",
+            "label._pos = { x: x, y: y, z: z };",
+            "label._size = size;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": true
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Font",
+          "name": "Font",
+          "supplementaryInformation": "[\"Arial\",\"Verdana\",\"Arial Narrow\",\"Georgia\",\"Courier\",\"Cursive\",\"Impact\"]",
+          "type": "stringWithSelector"
+        },
+        {
+          "description": "Label Text",
+          "name": "Text",
+          "type": "string"
+        },
+        {
+          "description": "Text align",
+          "name": "Align",
+          "supplementaryInformation": "[\"Center\",\"Left\",\"Right\"]",
+          "type": "stringWithSelector"
+        },
+        {
+          "description": "Label texture",
+          "name": "LabelTexture",
+          "type": "imageResource"
+        },
+        {
+          "description": "Label size (Default 1)",
+          "name": "Size",
+          "type": "expression"
+        },
+        {
+          "description": "Color",
+          "name": "Color",
+          "type": "color"
+        },
+        {
+          "description": "Shadow",
+          "name": "Shadow",
+          "type": "trueorfalse"
+        },
+        {
+          "description": "Shadow color",
+          "name": "ShadowColor",
+          "type": "color"
+        },
+        {
+          "description": "X",
+          "name": "X",
+          "type": "expression"
+        },
+        {
+          "description": "Y",
+          "name": "Y",
+          "type": "expression"
+        },
+        {
+          "description": "Z",
+          "name": "Z",
+          "type": "expression"
+        },
+        {
+          "description": "ID (Integer number)",
+          "name": "ID",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Update label position by ID",
+      "fullName": "Update label position by ID",
+      "functionType": "Action",
+      "name": "UpdateLabel",
+      "sentence": "Update label position with sticky edges _PARAM1_, smoothness _PARAM2_, ID _PARAM3_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const labelId = eventsFunctionContext.getArgument(\"ID\");",
+            "const stickyEdges = eventsFunctionContext.getArgument(\"StickyEdges\");",
+            "const maxDistance = 1000000;",
+            "const layer = runtimeScene.getLayer(\"\");",
+            "const camera = layer.getRenderer().getThreeCamera();",
+            "const canvas = runtimeScene.getGame().getRenderer().getCanvas();",
+            "const rect = canvas.getBoundingClientRect();",
+            "const currentTime = Date.now();",
+            "if (!gdjs._3dLabels) return;",
+            "const label = gdjs._3dLabels.get(labelId);",
+            "if (!label) return;",
+            "label._lastActive = currentTime;",
+            "const x = label._pos.x;",
+            "const y = label._pos.y;",
+            "const z = label._pos.z;",
+            "if (!gdjs._tempVec3) gdjs._tempVec3 = new THREE.Vector3();",
+            "const vector = gdjs._tempVec3;",
+            "vector.set(x, y, z);",
+            "const dist = camera.position.distanceTo(vector);",
+            "if (dist > maxDistance) {",
+            "    label.style.display = \"none\";",
+            "} else {",
+            "    vector.project(camera);",
+            "    if (!stickyEdges && vector.z > 1) {",
+            "        label.style.display = \"none\";",
+            "        return;",
+            "    }",
+            "    label.style.display = \"block\";",
+            "    const margin = 0.95;",
+            "    if (stickyEdges && (vector.z > 1 || Math.abs(vector.x) > margin || Math.abs(vector.y) > margin)) {",
+            "        if (vector.z > 1) {",
+            "            vector.x = -vector.x;",
+            "            vector.y = -vector.y;",
+            "        }",
+            "        if (Math.abs(vector.x) < 0.01 && Math.abs(vector.y) < 0.01) {",
+            "            vector.y = -margin;",
+            "        } else {",
+            "            const scaleToEdge = margin / Math.max(Math.abs(vector.x), Math.abs(vector.y));",
+            "            vector.x *= scaleToEdge;",
+            "            vector.y *= scaleToEdge;",
+            "        }",
+            "    }",
+            "    const targetX = (vector.x * 0.5 + 0.5) * rect.width + rect.left;",
+            "    const targetY = (-vector.y * 0.5 + 0.5) * rect.height + rect.top;",
+            "    if (label._px === undefined) label._px = targetX;",
+            "    if (label._py === undefined) label._py = targetY;",
+            "    const smooth = eventsFunctionContext.getArgument(\"Smooth\");",
+            "    label._px += (targetX - label._px) * smooth;",
+            "    label._py += (targetY - label._py) * smooth;",
+            "    label.style.left = Math.round(label._px) + \"px\";",
+            "    label.style.top = Math.round(label._py) + \"px\";",
+            "    const size = label._size || 1;",
+            "    const scale = Math.max(size, Math.min(1.5, 10 / (dist / 10 + 1)));",
+            "    label.style.transform = `translate(-50%, -50%) scale(${scale})`;",
+            "    const img = label.querySelector(\"img\");",
+            "    if (img) {",
+            "        img.style.transform = \"translateZ(0)\";",
+            "    }",
+            "}"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": true
+        }
+      ],
+      "parameters": [
+        {
+          "description": "Sticky edges",
+          "name": "StickyEdges",
+          "type": "trueorfalse"
+        },
+        {
+          "description": "Smoothness of label movement (0–1)",
+          "name": "Smooth",
+          "type": "expression"
+        },
+        {
+          "description": "ID (Integer number)",
+          "name": "ID",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    },
+    {
+      "description": "Delete label by ID",
+      "fullName": "Delete label by ID",
+      "functionType": "Action",
+      "name": "DeleteLabel",
+      "sentence": "Delete label with ID _PARAM1_",
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "const labelId = eventsFunctionContext.getArgument(\"ID\");",
+            "if (!gdjs._3dLabels) return;",
+            "const label = gdjs._3dLabels.get(labelId);",
+            "if (!label) return;",
+            "label.remove();",
+            "gdjs._3dLabels.delete(labelId);"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ],
+      "parameters": [
+        {
+          "description": "ID (Integer number)",
+          "name": "ID",
+          "type": "expression"
+        }
+      ],
+      "objectGroups": []
+    }
+  ],
+  "eventsFunctionsFolderStructure": {
+    "folderName": "__ROOT",
+    "children": [
+      {
+        "folderName": "Labels 3D",
+        "children": [
+          {
+            "functionName": "CreateLabelAtObject"
+          },
+          {
+            "functionName": "UpdateObjectLabel"
+          },
+          {
+            "functionName": "DeleteObjectLabel"
+          }
+        ]
+      },
+      {
+        "functionName": "CreateLabelAtPosition"
+      },
+      {
+        "functionName": "UpdateLabel"
+      },
+      {
+        "functionName": "DeleteLabel"
+      }
+    ]
+  },
+  "eventsBasedBehaviors": [],
+  "eventsBasedObjects": []
+}
